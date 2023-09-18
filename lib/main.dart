@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import "package:get/get.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:telegram_v1/screens/splash_screen.dart';
 import 'firebase_options.dart';
+import "package:flutter_native_splash/flutter_native_splash.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,6 +13,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  FlutterNativeSplash.remove();
 
   // Run the app
   runApp(const MyApp());
@@ -30,7 +34,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         brightness: Brightness.light,
       ),
-      home: const Text("Hello world!"),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
