@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import "package:get/get.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:provider/provider.dart';
+import 'package:telegram_v1/models/user_model.dart';
+import 'package:telegram_v1/providers/auth_provider.dart';
+import 'package:telegram_v1/providers/theme_provider.dart';
 import 'package:telegram_v1/screens/splash_screen.dart';
 import 'firebase_options.dart';
-import "package:flutter_native_splash/flutter_native_splash.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,10 +18,18 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  FlutterNativeSplash.remove();
+  await Hive.initFlutter();
+  await Hive.openBox<bool>("status");
+  await Hive.openBox<UserModel>("user");
 
   // Run the app
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ChangeNotifierProvider(create: (_) => AuthProvider()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
