@@ -145,7 +145,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         image: image!,
         onSuccess: () {
           ap.saveToLocal();
-          Get.offAll(() => HomeScreen());
+          Get.to(() => HomeScreen());
         },
       );
     }

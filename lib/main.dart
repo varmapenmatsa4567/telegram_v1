@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import 'package:telegram_v1/models/user_model.dart';
 import 'package:telegram_v1/providers/auth_provider.dart';
+import 'package:telegram_v1/providers/data_provider.dart';
 import 'package:telegram_v1/providers/theme_provider.dart';
 import 'package:telegram_v1/screens/splash_screen.dart';
 import 'firebase_options.dart';
@@ -20,13 +20,14 @@ void main() async {
 
   await Hive.initFlutter();
   await Hive.openBox<bool>("status");
-  await Hive.openBox<UserModel>("user");
+  await Hive.openBox<Map<String, dynamic>>("user");
 
   // Run the app
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ChangeNotifierProvider(create: (_) => DataProvider()),
     ],
     child: MyApp(),
   ));
@@ -45,6 +46,12 @@ class MyApp extends StatelessWidget {
         fontFamily: GoogleFonts.roboto().fontFamily,
         useMaterial3: true,
         brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        colorSchemeSeed: Colors.blue,
+        fontFamily: GoogleFonts.roboto().fontFamily,
+        useMaterial3: true,
+        brightness: Brightness.dark,
       ),
       home: SplashScreen(),
       debugShowCheckedModeBanner: false,

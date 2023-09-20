@@ -14,6 +14,9 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       keyboardType: TextInputType.name,
       controller: controller,
+      style: TextStyle(
+        color: tp.colors["textColor"],
+      ),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 17),
         labelText: hintText,

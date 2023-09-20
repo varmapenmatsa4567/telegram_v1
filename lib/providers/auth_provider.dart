@@ -17,7 +17,7 @@ class AuthProvider extends ChangeNotifier {
   // Variables
   bool _isAuth = false;
   Box _statusBox = Hive.box<bool>("status");
-  Box _userBox = Hive.box<UserModel>("user");
+  Box _userBox = Hive.box<Map<String, dynamic>>("user");
   bool isLoading = false;
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -151,9 +151,10 @@ class AuthProvider extends ChangeNotifier {
             .doc(_uid)
             .set(userModel.toMap())
             .then((value) {
-          toggleAuth();
-          toggleLoading();
+          // toggleAuth();
+          // toggleLoading();
           onSuccess();
+          toggleLoading();
         });
       });
     } on FirebaseException catch (e) {
@@ -162,7 +163,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   // Save user data to Hive
-  void saveToLocal() {
-    _userBox.put("user", _userModel);
+  void saveToLocal() async {
+    await _userBox.put("user", _userModel?.toMap());
   }
 }
