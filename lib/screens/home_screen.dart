@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:telegram_v1/providers/data_provider.dart';
 import 'package:telegram_v1/providers/theme_provider.dart';
+import 'package:telegram_v1/screens/new_chat.dart';
 import 'package:telegram_v1/widgets/chat_item.dart';
 import 'package:telegram_v1/widgets/sidebar_item.dart';
 
@@ -60,7 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             radius: 35,
                             // backgroundColor: tp.colors["primaryColor"],
                             backgroundImage: CachedNetworkImageProvider(
-                              dp.userModel.profilePic,
+                              dp.userModel != null
+                                  ? dp.userModel.profilePic
+                                  : "",
                             ),
                           ),
                           InkWell(
@@ -76,14 +80,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      Text(dp.userModel.firstName,
+                      Text(
+                          dp.userModel != null
+                              ? dp.userModel.firstName
+                              : "Loading...",
                           style: TextStyle(
                             fontSize: 15,
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
                           )),
                       Text(
-                        dp.userModel.phoneNumber,
+                        dp.userModel != null
+                            ? dp.userModel.phoneNumber
+                            : "Loading...",
                         style: TextStyle(
                           fontSize: 12,
                           color: tp.colors["drawerSecondaryTextColor"],
@@ -111,8 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: tp.colors["primaryColor"],
-          onPressed: () {
-            // dp.getContacts();
+          onPressed: () async {
+            Get.to(() => NewChat(),
+                transition: Transition.rightToLeft,
+                duration: Duration(milliseconds: 100));
           },
           child: Icon(Icons.edit, color: Colors.white),
           shape: RoundedRectangleBorder(

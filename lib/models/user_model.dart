@@ -8,6 +8,7 @@ class UserModel {
   String lastSeen;
   String bio;
   String username;
+  List<String> chats = [];
 
   UserModel({
     required this.uid,
@@ -19,6 +20,7 @@ class UserModel {
     this.lastSeen = "Online",
     this.bio = "",
     this.username = "",
+    this.chats = const [],
   });
 
   factory UserModel.fromMap(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class UserModel {
       lastSeen: json["lastSeen"] ?? "Online",
       bio: json["bio"] ?? "",
       username: json["username"] ?? "",
+      chats: json["chats"] ?? [],
     );
   }
 
@@ -46,6 +49,7 @@ class UserModel {
       "lastSeen": lastSeen,
       "bio": bio,
       "username": username,
+      "chats": chats,
     };
   }
 }
